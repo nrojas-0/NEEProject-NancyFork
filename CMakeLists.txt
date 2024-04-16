@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(OperatingSystemsStarter)
+project(NEEProject-NANCYFORK)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -24,6 +24,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 #add_subdirectory(FORTH_Input_Scanner)
 #add_subdirectory(Nancy-rforth_code)
 add_subdirectory(rforth)
+
 
 
 
