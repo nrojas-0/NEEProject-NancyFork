@@ -22,7 +22,10 @@ token_type_t get_token_type(const char* token){
         return SYMBOL;
     } else if (*token == '=' || *token == '<' || *token == '>' || strcmp(token, "and") == 0 || strcmp(token, "or")==0 || strcmp(token, "invert")==0){
         return BOOLEAN;
-    }else if (isdigit((unsigned char)*token)){
+    } else if (*token == '?DUP'){
+        return FUNCTION:
+    }
+    else if (isdigit((unsigned char)*token)){
         const char* p = token + 1; 
         while (*p) {
             if (!isdigit((unsigned char)*p)) {
@@ -32,7 +35,7 @@ token_type_t get_token_type(const char* token){
             p++;
         }
         return NUMBER;
-    } else {
+    }else {
         return WORD;
     }
 }
@@ -51,6 +54,8 @@ const char* token_type_to_string(token_type_t type) {
             return "BOOLEAN";
         case PRINT_STK:
             return "PRINT_STK";
+        case FUNCTION;
+            return "FUNCTION";
         default:
             return "UNKOWN";
     }
@@ -106,7 +111,7 @@ void separate_token(int_stack_t *stk, char *text, char* stringList[], int *intLi
             }
         }else if (type == OPERATOR) {
             int top_value;
-            if (stk->size > 2){     
+            if (stk->size >= 2){     
                 if (strcmp(token, "+") == 0) {        
                     int_stack_add(stk);
                 } else if (strcmp(token, "-") == 0) {
@@ -149,6 +154,8 @@ void separate_token(int_stack_t *stk, char *text, char* stringList[], int *intLi
                 int_stack_mod(stk);
             } else if (strcmp(token, "variable")==0){
                 //need to figure out
+            } else if (strcmp(token, "depth")==0){
+                int_stack_depth(stk); //adds to stack just like in gforth
             }
         } else if (type == BOOLEAN){
             
@@ -170,6 +177,10 @@ void separate_token(int_stack_t *stk, char *text, char* stringList[], int *intLi
                 int_stack_or(stk); //still figuring out 
             } else if (strcmp(token, "invert")==0){
                 int_stack_invert(stk); //not working right
+            }
+        } else if (type == FUNCTION){
+            if (strcmp(token, "?DUP")==0) {
+                int_stack_questionDUP(stk);
             }
         }
     }

@@ -75,7 +75,7 @@ int int_stack_swap(int_stack_t *stk) {
 /* Example of how to create a binary operator that works o top two elements (if present) */
 
 int int_stack_add(int_stack_t *stk) {
-    if (stk->size < 2)
+    if (stk->size < 2 || stk->size !=2)
         return 0;
     int top_value, next_to_top_value;
     int_stack_pop(stk, &top_value);
@@ -325,6 +325,27 @@ int int_stack_size(int_stack_t* stk) {
 int int_stack_capacity(int_stack_t* stk) {
     return stk->capacity;
 }
+
+int int_stack_depth(int_stack_t* stk) {
+    int depth = int_stack_size(stk); //gets size of stack even when stack is empty it adds 0 to stack like gforth
+    return int_stack_push(stk, depth);
+}
+int int_stack_questionDUP(int_stack_t* stk){
+    if (stk->size < 1)
+        return 0; // Not enough elements on the stack
+
+    int top_value;
+    int_stack_top(stk, &top_value); // Get the top value
+
+    if (top_value != 0) {
+        int_stack_push(stk, top_value); // Duplicate the value
+    } else {
+        int_stack_push(stk, 0); // Push 0 onto the stack
+    }
+
+    return 1; // Success
+}
+
 
 
 

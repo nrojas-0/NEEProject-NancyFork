@@ -12,6 +12,7 @@ typedef enum token_type_t {
     WORD,
     BOOLEAN,
     PRINT_STK,
+    FUNCTION,
     UNKOWN
 
 } token_type_t;
