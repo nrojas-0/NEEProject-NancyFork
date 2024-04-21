@@ -12,11 +12,14 @@
 
 ## Week Two
 
-- Ella: Merged Files on 4/13.
-- Nancy:
+- Ella: Merged Files on 4/13. Made checklist on 4/17. Added Min/Max functionality on 4/18.
+- Nancy: Made Corrections to Merged files 4/15-4/16, currently working on my end. | Fixed and is now able to compile and run. Will add GoogleTests over weekend. 4/18
+
+
+## Week Three
 
 ## Plans for the week:
 
-- Ella: Merge files & hopefully finish adding functions.
+- Ella: Look into recursive functions.
 - Nancy: Will help with Testing and in making it more like the gforth.
 - Erin: Take charge on the documentation and help with testing.
