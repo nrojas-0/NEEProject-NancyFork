@@ -8,15 +8,24 @@
 token_t* intialize_token(token_type_t type, const char* text){
     token_t* newToken = (token_t*)malloc(sizeof(token_t));
     if (newToken == NULL) {
-        
         return NULL;
     }
 }
 
 token_type_t get_token_type(const char* token){
     if (*token == '+' || *token == '-' || *token == '*' || *token == '/') {
+        if (*token == '-') {
+            const char* p = token + 1; 
+            while (*p) {
+                if (isdigit((unsigned char)*p)) {
+                    return WORD;
+                }
+                p++;
+            }
+            return NUMBER;
+        }
         return OPERATOR;
-    } else if (*token == '.'){
+    }else if (*token == '.'){
         return PRINT_STK;
     } else if (*token == ';' || *token == ':'){
         return SYMBOL;
@@ -63,9 +72,8 @@ void print_forth(int_stack_t *stk){
     int elements[stk->size]; 
     int i = 0;
     int pos = 0;
-    if (stk->size == 0) {
-        printf("ok\n");
-
+    if (stk->size == 0) { //if stack is empty then it's not printed and the message is only printed
+        printf("  ok?\n"); //I have the question mark to distinguish it in testing it to make more like forth
     }
 
     SLIST_FOREACH(entry, &stk->head, entries) {
@@ -74,12 +82,14 @@ void print_forth(int_stack_t *stk){
         }
     }
 
-    
-    printf("stack: ");
-    for (i = stk->size - 1; i >= 0; i--) {
-        printf("%d ", elements[i]);
+    if (stk->size > 0) { //if at least 1 element is in the stack it gets printed
+        printf("stack: ");
+        for (i = stk->size - 1; i >= 0; i--) {
+            printf("%d ", elements[i]);
+        }
+        printf("<- top\n");
     }
-    printf("<- top\n");
+    
 }
 
 
@@ -96,15 +106,18 @@ void separate_token(int_stack_t *stk, char *text, char* stringList[], int *intLi
         if (type == NUMBER) {
             int_stack_push(stk, atoi(token)); //turns character into integer
             //use -> *token makes the stack print out the ASCII form of the digits
-        } else if (type == PRINT_STK){ //This makes it so that when '.' is entered it pushes out the number
+        }else if (type == PRINT_STK){ //This makes it so that when '.' is entered it pushes out the number
             int top_value;
             if(stk->size >= 1){
                  if (strcmp(token, ".")==0){
                     int_stack_pop(stk, &top_value);
-                    printf(". %d ", top_value); //prints . digit ok (ok is from print_forth)
+                    printf(". %d", top_value); //prints . digit ok (ok is from print_forth)
+                    printf("  ok\n");
+                } //April 21: Trying to get this to print on the same line as input "."
+            } else if (stk->size == 0){
+                if (strcmp(token, ".")==0){
+                    printf("Stack underflow?\n");
                 }
-            } else{
-                printf("Stack underflow\n");
             }
         }else if (type == OPERATOR) {
             int top_value;
@@ -156,6 +169,21 @@ void separate_token(int_stack_t *stk, char *text, char* stringList[], int *intLi
             }
             else if (strcmp(token, "depth")==0){
                 int_stack_depth(stk);
+            }
+            else if(strcmp(token, "min")==0){
+                int_stack_min(stk);
+            }
+            else if(strcmp(token, "max")==0){
+                int_stack_max(stk);
+            }
+            else if(strcmp(token, "ceil")==0){
+                int_stack_ceil(stk);
+            }
+            else if(strcmp(token, "floor")==0){
+                int_stack_floor(stk);
+            }
+            else if(strcmp(token, "abs")==0){
+                int_stack_abs(stk);
             }
         } else if (type == BOOLEAN){
             
